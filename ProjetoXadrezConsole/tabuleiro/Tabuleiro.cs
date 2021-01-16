@@ -13,15 +13,36 @@
             pecas = new Peca[linhas,colunas];
         }
 
-        public Peca getPeca(int linha, int coluna)
+        public Peca getPeca(int linha, int coluna) => pecas[linha, coluna];
+        
+        public Peca getPeca(Posicao pos) => pecas[pos.linha, pos.coluna];
+
+        public bool existePeca(Posicao pos)
         {
-            return pecas[linha, coluna];
+            validPosicao(pos);
+            return getPeca(pos) != null;
         }
 
         public void colocarPeca (Peca p, Posicao pos)
         {
+            if (existePeca(pos))
+                throw new TabuleiroException("Ja existe uma peça nesta posição!");
+            
             pecas[pos.linha, pos.coluna] = p;
             p.posicao = pos;
+        }
+
+        public bool isPosicaoValida(Posicao pos)
+        {
+            if (pos.linha < 0 || pos.linha >= linhas || pos.coluna < 0 || pos.coluna >= colunas)
+                return false;
+            return true;
+        }
+
+        public void validPosicao(Posicao pos)
+        {
+            if (!isPosicaoValida(pos))
+                throw new TabuleiroException("Posição Inválida!");
         }
     }
 }
