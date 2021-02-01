@@ -17,11 +17,7 @@ namespace ProjetoXadrezConsole
                     try
                     {
                         Console.Clear();
-                        Tela.ImprimirTabuleiro(partida.tab);
-                        Console.WriteLine();
-                        Console.WriteLine($"Turno: {partida.turno}");
-                        Console.Write("Aguardando jogada: ");
-                        partida.imprimirJogadorAtual(partida.jogadorAtual);
+                        Tela.imprimirPartida(partida);
 
                         Console.WriteLine();
                         Console.Write("Origem: ");
