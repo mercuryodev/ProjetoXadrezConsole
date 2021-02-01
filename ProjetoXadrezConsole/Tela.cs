@@ -16,6 +16,14 @@ namespace ProjetoXadrezConsole
             Console.WriteLine($"Turno: {partida.turno}");
             Console.Write("Aguardando jogada: ");
             partida.imprimirJogadorAtual(partida.jogadorAtual);
+            if (partida.xeque)
+            {
+                ConsoleColor original = Console.ForegroundColor;
+                Console.ForegroundColor = ConsoleColor.Green;
+                Console.WriteLine("XEQUE!");
+                Console.ForegroundColor = original;
+            }
+
         }
 
         private static void imprimirPecasCapturadas(PartidaDeXadrez partida)
@@ -23,14 +31,14 @@ namespace ProjetoXadrezConsole
             ConsoleColor original = Console.ForegroundColor;
             Console.WriteLine("Pecas capturadas:");
 
-            Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.Write("Amarelas:  ");
-            imprimirConjunto(partida.pecasCapturadas(Cor.Amarela));
-            Console.WriteLine();
-
             Console.ForegroundColor = ConsoleColor.Red;
             Console.Write("Vermelhas: ");
             imprimirConjunto(partida.pecasCapturadas(Cor.Vermelha));
+            Console.WriteLine();
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.Write("Amarelas:  ");
+            imprimirConjunto(partida.pecasCapturadas(Cor.Amarela));
             Console.WriteLine();
 
             Console.ForegroundColor = original;
