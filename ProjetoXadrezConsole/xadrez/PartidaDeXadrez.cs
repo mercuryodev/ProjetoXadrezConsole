@@ -9,8 +9,8 @@ namespace xadrez
     {
         public Tabuleiro tab { get; private set; }
         public bool isTerminada { get; private set; }
-        private int turno;
-        private Cor jogadorAtual;
+        public int turno { get; private set;}
+        public Cor jogadorAtual { get; private set;}
 
         public PartidaDeXadrez()
         {
@@ -26,6 +26,38 @@ namespace xadrez
             p.incrementarQteMovimentos();
             Peca pecaCapturada = tab.retirarPeca(destino);
             tab.colocarPeca(p, destino);
+        }
+
+        public void realizaJogada(Posicao origem, Posicao destino) 
+        {
+            exectuaMovimento(origem,destino);
+            turno++;
+            mudaJogador();
+        }
+
+        public void validarPosicaoOrigem(Posicao pos)
+        {
+            if (tab.getPeca(pos) == null)
+                throw new TabuleiroException("Não existe posição de origem escolhida!");
+            if (jogadorAtual != tab.getPeca(pos).cor)
+                throw new TabuleiroException("A peça de tabuleiro escolhido não é sua!");
+            if (!tab.getPeca(pos).existeMovimentoPossiveis())
+                throw new TabuleiroException("Não há movimentos possiveis para peça de origem escolhida!");
+        }
+
+
+        public void validarPosicaoDeDestino (Posicao origem, Posicao destino)
+        {
+            if (!tab.getPeca(origem).podeMoverPara(destino))
+                throw new TabuleiroException("Posição de destino invalida!");
+        }
+
+        private void mudaJogador()
+        {
+            if(jogadorAtual.Equals(Cor.Amarela))
+                jogadorAtual = Cor.Vermelha;
+            else
+                jogadorAtual = Cor.Amarela;
         }
 
         private void colocarPecas()
@@ -45,6 +77,21 @@ namespace xadrez
             tab.colocarPeca(new Rei(tab, Cor.Vermelha), new PosicaoXadrez('d', 8).toPosicao());
         }
 
-
+        public void imprimirJogadorAtual(Cor jogadorAtual)
+        {
+            ConsoleColor corOriginal = Console.ForegroundColor;
+            if (jogadorAtual.Equals(Cor.Amarela))
+            {
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.Write(jogadorAtual);
+                Console.ForegroundColor = corOriginal;
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.Write(jogadorAtual);
+                Console.ForegroundColor = corOriginal;
+            }
+        }
     }
 }
